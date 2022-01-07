@@ -13,7 +13,7 @@ export default class Form extends Component {
       cardImage,
       cardRare,
       cardTrunfo,
-      hasTrunfo,
+      // hasTrunfo,
       isSaveButtonDisabled,
       onInputChange,
       onSaveButtonClick,
@@ -27,7 +27,7 @@ export default class Form extends Component {
           id="name-input"
           dataTestid="name-input"
           value={ cardName }
-          onChange={ onInputChange }
+          onInputChange={ onInputChange }
         />
 
         <label htmlFor="description-input">
@@ -51,7 +51,7 @@ export default class Form extends Component {
           id="attr1-input"
           legend="Attr01"
           value={ cardAttr1 }
-          onChange={ onInputChange }
+          onInputChange={ onInputChange }
         />
 
         <Input
@@ -61,7 +61,7 @@ export default class Form extends Component {
           id="attr2-input"
           legend="Attr02"
           value={ cardAttr2 }
-          onChange={ onInputChange }
+          onInputChange={ onInputChange }
         />
 
         <Input
@@ -71,7 +71,7 @@ export default class Form extends Component {
           id="attr3-input"
           legend="Attr03"
           value={ cardAttr3 }
-          onChange={ onInputChange }
+          onInputChange={ onInputChange }
         />
 
         <Input
@@ -81,7 +81,7 @@ export default class Form extends Component {
           id="image-input"
           dataTestid="image-input"
           value={ cardImage }
-          onChange={ onInputChange }
+          onInputChange={ onInputChange }
         />
 
         <label htmlFor="rare-input">
@@ -100,15 +100,17 @@ export default class Form extends Component {
           </select>
         </label>
 
-        <Input
-          legend="Super Trybe Trunfo"
-          type="checkbox"
-          name="trunfo-input"
-          id="trunfo-input"
-          dataTestid="trunfo-input"
-          value={ cardTrunfo }
-          onChange={ onInputChange }
-        />
+        <label htmlFor="trunfo-input">
+          <input
+            type="checkbox"
+            name="trunfo-input"
+            id="trunfo-input"
+            data-testid="trunfo-input"
+            checked={ cardTrunfo }
+            onChange={ onInputChange }
+          />
+          Super Trybe Trunfo
+        </label>
 
         <button
           type="submit"
@@ -132,7 +134,7 @@ Form.propTypes = {
   cardImage: PropTypes.string.isRequired,
   cardRare: PropTypes.string.isRequired,
   cardTrunfo: PropTypes.bool.isRequired,
-  hasTrunfo: PropTypes.bool.isRequired,
+  // hasTrunfo: PropTypes.bool.isRequired,
   isSaveButtonDisabled: PropTypes.bool.isRequired,
   onInputChange: PropTypes.func.isRequired,
   onSaveButtonClick: PropTypes.func.isRequired,

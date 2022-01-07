@@ -3,7 +3,7 @@ import { PropTypes } from 'prop-types';
 
 export default class Atributo extends Component {
   render() {
-    const { dataTestid, name, id, legend, type } = this.props;
+    const { dataTestid, name, id, legend, type, onInputChange, value } = this.props;
 
     return (
       <label htmlFor={ id }>
@@ -12,7 +12,9 @@ export default class Atributo extends Component {
           type={ type }
           name={ name }
           id={ id }
+          value={ value }
           data-testid={ dataTestid }
+          onChange={ onInputChange }
         />
       </label>
     );
@@ -25,4 +27,6 @@ Atributo.propTypes = {
   id: PropTypes.string.isRequired,
   legend: PropTypes.string.isRequired,
   type: PropTypes.string.isRequired,
+  onInputChange: PropTypes.func.isRequired,
+  value: PropTypes.string.isRequired,
 };
