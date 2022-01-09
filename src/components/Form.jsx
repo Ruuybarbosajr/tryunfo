@@ -1,6 +1,5 @@
 import React, { Component } from 'react';
 import { PropTypes } from 'prop-types';
-import Input from './Input';
 
 export default class Form extends Component {
   render() {
@@ -18,23 +17,26 @@ export default class Form extends Component {
       onInputChange,
       onSaveButtonClick,
     } = this.props;
+
     return (
       <form className="forms">
-        <Input
-          legend="Nome"
-          type="text"
-          name="name-input"
-          id="name-input"
-          dataTestid="name-input"
-          value={ cardName }
-          onInputChange={ onInputChange }
-        />
+        <label htmlFor="name-input">
+          Nome
+          <input
+            type="text"
+            name="cardName"
+            id="name-input"
+            value={ cardName }
+            data-testid="name-input"
+            onChange={ onInputChange }
+          />
+        </label>
 
         <label htmlFor="description-input">
           Descrição
           <br />
           <textarea
-            name="description-input"
+            name="cardDescription"
             id="description-input"
             cols="30"
             rows="10"
@@ -44,51 +46,65 @@ export default class Form extends Component {
           />
         </label>
 
-        <Input
-          dataTestid="attr1-input"
-          type="number"
-          name="attr1-input"
-          id="attr1-input"
-          legend="Attr01"
-          value={ cardAttr1 }
-          onInputChange={ onInputChange }
-        />
+        <label htmlFor="attr1-input">
+          Attr01
+          <input
+            max={ 90 }
+            min={ 0 }
+            type="number"
+            name="cardAttr1"
+            id="attr1-input"
+            value={ cardAttr1 }
+            data-testid="attr1-input"
+            onChange={ onInputChange }
+          />
+        </label>
 
-        <Input
-          dataTestid="attr2-input"
-          type="number"
-          name="attr2-input"
-          id="attr2-input"
-          legend="Attr02"
-          value={ cardAttr2 }
-          onInputChange={ onInputChange }
-        />
+        <label htmlFor="attr2-input">
+          Attr02
+          <input
+            max={ 90 }
+            min={ 0 }
+            type="number"
+            name="cardAttr2"
+            id="attr2-input"
+            value={ cardAttr2 }
+            data-testid="attr2-input"
+            onChange={ onInputChange }
+          />
+        </label>
 
-        <Input
-          dataTestid="attr3-input"
-          type="number"
-          name="attr3-input"
-          id="attr3-input"
-          legend="Attr03"
-          value={ cardAttr3 }
-          onInputChange={ onInputChange }
-        />
+        <label htmlFor="attr3-input">
+          Attr03
+          <input
+            max={ 90 }
+            min={ 0 }
+            type="number"
+            name="cardAttr3"
+            id="attr3-input"
+            value={ cardAttr3 }
+            data-testid="attr3-input"
+            onChange={ onInputChange }
+          />
+        </label>
 
-        <Input
-          legend="Imagem"
-          type="text"
-          name="image-input"
-          id="image-input"
-          dataTestid="image-input"
-          value={ cardImage }
-          onInputChange={ onInputChange }
-        />
+        <label htmlFor="image-input">
+          Imagem
+          <input
+            type="text"
+            name="cardImage"
+            id="image-input"
+            value={ cardImage }
+            data-testid="image-input"
+            onChange={ onInputChange }
+          />
+        </label>
 
         <label htmlFor="rare-input">
           Raridade
           <br />
           <select
-            name="rare-input"
+            name="cardRare"
             id="rare-input"
             data-testid="rare-input"
             value={ cardRare }
@@ -103,7 +119,7 @@ export default class Form extends Component {
         <label htmlFor="trunfo-input">
           <input
             type="checkbox"
-            name="trunfo-input"
+            name="cardTrunfo"
             id="trunfo-input"
             data-testid="trunfo-input"
             checked={ cardTrunfo }
@@ -114,9 +130,9 @@ export default class Form extends Component {
 
         <button
           type="submit"
+          disabled={ isSaveButtonDisabled }
           data-testid="save-button"
           onClick={ onSaveButtonClick }
-          disabled={ isSaveButtonDisabled }
         >
           Salvar
         </button>
