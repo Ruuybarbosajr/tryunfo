@@ -23,9 +23,12 @@ class App extends React.Component {
   handleChange = ({ target }) => {
     const { name } = target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
-    this.setState({
-      [name]: value,
-    }, this.checkButton); // a setStage está recebendo outro parâmetro, uma callback que é chamada após setar no estado, garantindo que a verificação ocorre após a mudança.
+    this.setState(
+      {
+        [name]: value,
+      },
+      this.checkButton,
+    ); // a setStage está recebendo outro parâmetro, uma callback que é chamada após setar no estado, garantindo que a verificação ocorre após a mudança.
   };
 
   checkButton = () => {
@@ -48,9 +51,12 @@ class App extends React.Component {
       && cardImage !== ''
       && cardRare !== ''
       && Number(cardAttr1) + Number(cardAttr2) + Number(cardAttr3) <= maxAllAttr
-      && cardAttr1 >= limMinAttr && cardAttr1 <= limMaxAttr
-      && cardAttr2 >= limMinAttr && cardAttr2 <= limMaxAttr
-      && cardAttr3 >= limMinAttr && cardAttr3 <= limMaxAttr
+      && cardAttr1 >= limMinAttr
+      && cardAttr1 <= limMaxAttr
+      && cardAttr2 >= limMinAttr
+      && cardAttr2 <= limMaxAttr
+      && cardAttr3 >= limMinAttr
+      && cardAttr3 <= limMaxAttr
     ) {
       this.setState({ isSaveButtonDisabled: false });
     } else {
@@ -88,21 +94,19 @@ class App extends React.Component {
       this.setState({ hasTrunfo: true });
     }
 
-    this.setState(
-      {
-        cardsDone: [...cardsDone, cart],
-        cardName: '',
-        cardDescription: '',
-        cardAttr1: '0',
-        cardAttr2: '0',
-        cardAttr3: '0',
-        cardImage: '',
-        cardRare: '',
-        cardTrunfo: false,
-        isSaveButtonDisabled: true,
-      },
-    );
-  }
+    this.setState({
+      cardsDone: [...cardsDone, cart],
+      cardName: '',
+      cardDescription: '',
+      cardAttr1: '0',
+      cardAttr2: '0',
+      cardAttr3: '0',
+      cardImage: '',
+      cardRare: '',
+      cardTrunfo: false,
+      isSaveButtonDisabled: true,
+    });
+  };
 
   render() {
     const {
@@ -116,6 +120,7 @@ class App extends React.Component {
       cardTrunfo,
       isSaveButtonDisabled,
       hasTrunfo,
+      cardsDone,
     } = this.state;
 
     return (
@@ -144,6 +149,30 @@ class App extends React.Component {
           cardRare={ cardRare }
           cardTrunfo={ cardTrunfo }
         />
+        { cardsDone.map(
+          ({
+            name,
+            description,
+            attr1,
+            attr2,
+            attr3,
+            image,
+            rarity,
+            superTrunfo,
+          }) => (
+            <Card
+              key={ name }
+              cardName={ name }
+              cardDescription={ description }
+              cardAttr1={ attr1 }
+              cardAttr2={ attr2 }
+              cardAttr3={ attr3 }
+              cardImage={ image }
+              cardRare={ rarity }
+              cardTrunfo={ superTrunfo }
+            />
+          ),
+        ) }
       </>
     );
   }
