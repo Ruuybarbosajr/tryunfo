@@ -15,4 +15,73 @@ code {
 .forms {
   display: flex;
   flex-direction: column;
+  width: 20vw;
+  padding: 20px;
+}
+
+.preview-card {
+  align-items: center;
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  width: 20vw;
+  border: 1px solid black;
+  height: 28vw;
+}
+
+.preview-card img {
+  width: 10vw;
+  height: 20vh;
+  margin-bottom: 10px;
+}
+
+.preview-and-forms {
+  display: flex;
+  justify-content: center;
+  gap: 3vw;
+}
+
+.all-cards {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.inputs {
+  width: 20vw;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  margin-bottom: 20px;
+}
+
+.inputs:focus {
+  outline: none;
+}
+
+.rarity-select {
+  width: 20.2vw;
+  font-size: 15px;
+  margin-bottom: 20px;
+}
+
+.button-save {
+  width: 20vw;
+  border: none;
+  background-color: rgba(93, 93, 245, 0.685);
+  padding: 8px;
+  margin-top: 20px;
+  color: black;
+  cursor: pointer;
+}
+
+.button-save:hover {
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.342);
+  background-color: rgb(93, 93, 245);
+}
+
+.button-save:disabled {
+  background-color: rgb(93, 93, 245);
+  cursor: not-allowed;
+  box-shadow: none;
+  opacity: 0.5;
 }

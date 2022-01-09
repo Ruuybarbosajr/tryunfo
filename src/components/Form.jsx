@@ -22,7 +22,9 @@ export default class Form extends Component {
       <form className="forms">
         <label htmlFor="name-input">
           Nome
+          <br />
           <input
+            className="inputs"
             type="text"
             name="cardName"
             id="name-input"
@@ -36,6 +38,7 @@ export default class Form extends Component {
           Descrição
           <br />
           <textarea
+            className="inputs"
             name="cardDescription"
             id="description-input"
             cols="30"
@@ -48,7 +51,9 @@ export default class Form extends Component {
 
         <label htmlFor="attr1-input">
           Attr01
+          <br />
           <input
+            className="inputs"
             max={ 90 }
             min={ 0 }
             type="number"
@@ -62,7 +67,9 @@ export default class Form extends Component {
 
         <label htmlFor="attr2-input">
           Attr02
+          <br />
           <input
+            className="inputs"
             max={ 90 }
             min={ 0 }
             type="number"
@@ -76,7 +83,9 @@ export default class Form extends Component {
 
         <label htmlFor="attr3-input">
           Attr03
+          <br />
           <input
+            className="inputs"
             max={ 90 }
             min={ 0 }
             type="number"
@@ -90,6 +99,7 @@ export default class Form extends Component {
 
         <label htmlFor="image-input">
           Imagem
+          <br />
           <input
             type="text"
             name="cardImage"
@@ -97,6 +107,7 @@ export default class Form extends Component {
             value={ cardImage }
             data-testid="image-input"
             onChange={ onInputChange }
+            className="inputs"
           />
         </label>
 
@@ -104,6 +115,7 @@ export default class Form extends Component {
           Raridade
           <br />
           <select
+            className="rarity-select"
             name="cardRare"
             id="rare-input"
             data-testid="rare-input"
@@ -132,6 +144,7 @@ export default class Form extends Component {
         ) }
 
         <button
+          className="button-save"
           type="submit"
           disabled={ isSaveButtonDisabled }
           data-testid="save-button"

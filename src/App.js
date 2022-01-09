@@ -20,6 +20,22 @@ class App extends React.Component {
     };
   }
 
+  // checkTrunfo = () => {
+  //   const { cardsDone } = this.state;
+  //   this.setState({
+  //     hasTrunfo: cardsDone.some((cards) => cards.superTrunfo),
+  //   });
+  // }
+
+  handleDeleteCLick = ({ target }) => {
+    const { cardsDone } = this.state;
+    this.setState({
+      cardsDone: cardsDone.filter((card) => card.name !== target.parentNode.id),
+    }, () => this.setState((prevState) => ({
+      hasTrunfo: prevState.cardsDone.some((cards) => cards.superTrunfo),
+    })));
+  }
+
   handleChange = ({ target }) => {
     const { name } = target;
     const value = target.type === 'checkbox' ? target.checked : target.value;
@@ -125,54 +141,69 @@ class App extends React.Component {
 
     return (
       <>
-        <Form
-          onInputChange={ this.handleChange }
-          cardName={ cardName }
-          cardDescription={ cardDescription }
-          cardAttr1={ cardAttr1 }
-          cardAttr2={ cardAttr2 }
-          cardAttr3={ cardAttr3 }
-          cardImage={ cardImage }
-          cardRare={ cardRare }
-          cardTrunfo={ cardTrunfo }
-          hasTrunfo={ hasTrunfo }
-          isSaveButtonDisabled={ isSaveButtonDisabled }
-          onSaveButtonClick={ this.handleClick }
-        />
-        <Card
-          cardName={ cardName }
-          cardDescription={ cardDescription }
-          cardAttr1={ cardAttr1 }
-          cardAttr2={ cardAttr2 }
-          cardAttr3={ cardAttr3 }
-          cardImage={ cardImage }
-          cardRare={ cardRare }
-          cardTrunfo={ cardTrunfo }
-        />
-        { cardsDone.map(
-          ({
-            name,
-            description,
-            attr1,
-            attr2,
-            attr3,
-            image,
-            rarity,
-            superTrunfo,
-          }) => (
-            <Card
-              key={ name }
-              cardName={ name }
-              cardDescription={ description }
-              cardAttr1={ attr1 }
-              cardAttr2={ attr2 }
-              cardAttr3={ attr3 }
-              cardImage={ image }
-              cardRare={ rarity }
-              cardTrunfo={ superTrunfo }
-            />
-          ),
-        ) }
+        <div className="preview-and-forms">
+          <Form
+            onInputChange={ this.handleChange }
+            cardName={ cardName }
+            cardDescription={ cardDescription }
+            cardAttr1={ cardAttr1 }
+            cardAttr2={ cardAttr2 }
+            cardAttr3={ cardAttr3 }
+            cardImage={ cardImage }
+            cardRare={ cardRare }
+            cardTrunfo={ cardTrunfo }
+            hasTrunfo={ hasTrunfo }
+            isSaveButtonDisabled={ isSaveButtonDisabled }
+            onSaveButtonClick={ this.handleClick }
+          />
+          <Card
+            cardName={ cardName }
+            cardDescription={ cardDescription }
+            cardAttr1={ cardAttr1 }
+            cardAttr2={ cardAttr2 }
+            cardAttr3={ cardAttr3 }
+            cardImage={ cardImage }
+            cardRare={ cardRare }
+            cardTrunfo={ cardTrunfo }
+          />
+        </div>
+        <div className="all-cards">
+          { cardsDone.map(
+            ({
+              name,
+              description,
+              attr1,
+              attr2,
+              attr3,
+              image,
+              rarity,
+              superTrunfo,
+            }) => (
+              <div
+                key={ name }
+                id={ name }
+              >
+                <Card
+                  cardName={ name }
+                  cardDescription={ description }
+                  cardAttr1={ attr1 }
+                  cardAttr2={ attr2 }
+                  cardAttr3={ attr3 }
+                  cardImage={ image }
+                  cardRare={ rarity }
+                  cardTrunfo={ superTrunfo }
+                />
+                <button
+                  type="button"
+                  onClick={ this.handleDeleteCLick }
+                  data-testid="delete-button"
+                >
+                  Excluir
+                </button>
+              </div>
+            ),
+          ) }
+        </div>
       </>
     );
   }
