@@ -20,13 +20,14 @@ code {
 }
 
 .preview-card {
-  align-items: center;
+  justify-content: space-evenly;
   display: flex;
   flex-direction: column;
   text-align: center;
   width: 20vw;
+  height: 511px;
   border: 1px solid black;
-  height: 28vw;
+  border-radius: 7px;
 }
 
 .preview-card img {
@@ -44,6 +45,7 @@ code {
 .all-cards {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .inputs {
@@ -84,4 +86,28 @@ code {
   cursor: not-allowed;
   box-shadow: none;
   opacity: 0.5;
+}
+
+.maiusc {
+  text-transform: capitalize;
+}
+
+.card-done {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.button-delete {
+  background-color: rgba(233, 77, 77, 0.849);
+  border: none;
+  width: 10vw;
+  padding: 5px;
+  margin-top: 5px;
+  border-radius: 5px;
+  cursor: pointer;
+}
+
+.button-delete:hover {
+  box-shadow: 0px 8px 15px rgba(0, 0, 0, 0.459);
 }

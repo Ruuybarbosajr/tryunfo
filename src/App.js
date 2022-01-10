@@ -17,22 +17,31 @@ class App extends React.Component {
       hasTrunfo: false,
       isSaveButtonDisabled: true,
       cardsDone: [],
+      nameFilter: '',
+      cardsFilter: [],
+      rarityFilter: '',
     };
   }
 
-  // checkTrunfo = () => {
-  //   const { cardsDone } = this.state;
-  //   this.setState({
-  //     hasTrunfo: cardsDone.some((cards) => cards.superTrunfo),
-  //   });
-  // }
-
   handleDeleteCLick = ({ target }) => {
-    const { cardsDone } = this.state;
+    const { cardsDone, cardsFilter } = this.state;
     this.setState({
       cardsDone: cardsDone.filter((card) => card.name !== target.parentNode.id),
+      cardsFilter: cardsFilter.filter((card) => card.name !== target.parentNode.id),
     }, () => this.setState((prevState) => ({
       hasTrunfo: prevState.cardsDone.some((cards) => cards.superTrunfo),
+    })));
+  }
+
+  handleChangeFilter = (keyVerify, keyState) => {
+    const { cardsDone } = this.state;
+    this.setState({
+      cardsFilter: [...cardsDone],
+    }, () => this.setState((prevState) => ({
+      cardsFilter: prevState.cardsFilter.filter((card) => (
+        keyState === 'rarityFilter'
+          ? card[keyVerify] === prevState[keyState]
+          : card[keyVerify].toLowerCase().includes(prevState[keyState].toLowerCase()))),
     })));
   }
 
@@ -44,35 +53,21 @@ class App extends React.Component {
         [name]: value,
       },
       this.checkButton,
-    ); // a setStage está recebendo outro parâmetro, uma callback que é chamada após setar no estado, garantindo que a verificação ocorre após a mudança.
+    );
   };
 
   checkButton = () => {
     const maxAllAttr = 210;
     const limMaxAttr = 90;
     const limMinAttr = 0;
-    const {
-      cardName,
-      cardDescription,
-      cardImage,
-      cardRare,
-      cardAttr1,
-      cardAttr2,
-      cardAttr3,
-    } = this.state;
+    const { cardName, cardDescription, cardImage, cardRare, cardAttr1, cardAttr2,
+      cardAttr3 } = this.state;
 
     if (
-      cardName !== ''
-      && cardDescription !== ''
-      && cardImage !== ''
-      && cardRare !== ''
+      cardName && cardDescription && cardImage && cardRare
       && Number(cardAttr1) + Number(cardAttr2) + Number(cardAttr3) <= maxAllAttr
-      && cardAttr1 >= limMinAttr
-      && cardAttr1 <= limMaxAttr
-      && cardAttr2 >= limMinAttr
-      && cardAttr2 <= limMaxAttr
-      && cardAttr3 >= limMinAttr
-      && cardAttr3 <= limMaxAttr
+      && cardAttr1 >= limMinAttr && cardAttr1 <= limMaxAttr && cardAttr2 >= limMinAttr
+      && cardAttr2 <= limMaxAttr && cardAttr3 >= limMinAttr && cardAttr3 <= limMaxAttr
     ) {
       this.setState({ isSaveButtonDisabled: false });
     } else {
@@ -81,17 +76,8 @@ class App extends React.Component {
   };
 
   handleClick = (event) => {
-    const {
-      cardName,
-      cardDescription,
-      cardAttr1,
-      cardAttr2,
-      cardAttr3,
-      cardImage,
-      cardRare,
-      cardsDone,
-      cardTrunfo,
-    } = this.state;
+    const { cardName, cardDescription, cardAttr1, cardAttr2, cardAttr3, cardImage,
+      cardRare, cardsDone, cardTrunfo } = this.state;
 
     event.preventDefault();
 
@@ -124,20 +110,46 @@ class App extends React.Component {
     });
   };
 
+  checkRenderFilter = (arrRender) => (
+    arrRender.map(
+      (card) => (
+        <div
+          className="card-done"
+          key={ card.name }
+          id={ card.name }
+        >
+          <Card
+            cardName={ card.name }
+            cardDescription={ card.description }
+            cardAttr1={ card.attr1 }
+            cardAttr2={ card.attr2 }
+            cardAttr3={ card.attr3 }
+            cardImage={ card.image }
+            cardRare={ card.rarity }
+            cardTrunfo={ card.superTrunfo }
+          />
+          <button
+            className="button-delete"
+            type="button"
+            onClick={ this.handleDeleteCLick }
+            data-testid="delete-button"
+          >
+            Excluir
+          </button>
+        </div>
+      ),
+    ));
+
+  callFunc = (event, keyVerify, keyState) => {
+    this.handleChange(event);
+    this.handleChangeFilter(keyVerify, keyState);
+  }
+
   render() {
     const {
-      cardName,
-      cardDescription,
-      cardAttr1,
-      cardAttr2,
-      cardAttr3,
-      cardImage,
-      cardRare,
-      cardTrunfo,
-      isSaveButtonDisabled,
-      hasTrunfo,
-      cardsDone,
-    } = this.state;
+      cardName, cardDescription, cardAttr1, cardAttr2, cardAttr3, cardImage, cardRare,
+      cardTrunfo, isSaveButtonDisabled, hasTrunfo, cardsDone, nameFilter, cardsFilter,
+      rarityFilter } = this.state;
 
     return (
       <>
@@ -167,42 +179,36 @@ class App extends React.Component {
             cardTrunfo={ cardTrunfo }
           />
         </div>
+        <div>
+          <label htmlFor="nameFilter">
+            Filtros de busca
+            <br />
+            <input
+              type="text"
+              name="nameFilter"
+              id="nameFilter"
+              value={ nameFilter }
+              data-testid="name-filter"
+              onChange={ (event) => this.callFunc(event, 'name', 'nameFilter') }
+            />
+          </label>
+          <label htmlFor="nameFilter">
+            <select
+              name="rarityFilter"
+              id="rare-filter"
+              data-testid="rare-filter"
+              onChange={ (event) => this.callFunc(event, 'rarity', 'rarityFilter') }
+            >
+              <option value="todas">Todas</option>
+              <option value="normal">Normal</option>
+              <option value="raro">Raro</option>
+              <option value="muito raro">Muito Raro</option>
+            </select>
+          </label>
+        </div>
         <div className="all-cards">
-          { cardsDone.map(
-            ({
-              name,
-              description,
-              attr1,
-              attr2,
-              attr3,
-              image,
-              rarity,
-              superTrunfo,
-            }) => (
-              <div
-                key={ name }
-                id={ name }
-              >
-                <Card
-                  cardName={ name }
-                  cardDescription={ description }
-                  cardAttr1={ attr1 }
-                  cardAttr2={ attr2 }
-                  cardAttr3={ attr3 }
-                  cardImage={ image }
-                  cardRare={ rarity }
-                  cardTrunfo={ superTrunfo }
-                />
-                <button
-                  type="button"
-                  onClick={ this.handleDeleteCLick }
-                  data-testid="delete-button"
-                >
-                  Excluir
-                </button>
-              </div>
-            ),
-          ) }
+          { nameFilter === '' && (rarityFilter === '' || rarityFilter === 'todas')
+            ? this.checkRenderFilter(cardsDone) : this.checkRenderFilter(cardsFilter) }
         </div>
       </>
     );
