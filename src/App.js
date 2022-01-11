@@ -20,6 +20,7 @@ class App extends React.Component {
       nameFilter: '',
       cardsFilter: [],
       rarityFilter: '',
+      trunfoFilter: false,
     };
   }
 
@@ -33,16 +34,14 @@ class App extends React.Component {
     })));
   }
 
-  handleChangeFilter = (keyVerify, keyState) => {
+  handleChangeFilter = ({ target }) => {
     const { cardsDone } = this.state;
+    const value = target.type === 'checkbox' ? target.checked : target.value;
     this.setState({
-      cardsFilter: [...cardsDone],
-    }, () => this.setState((prevState) => ({
-      cardsFilter: prevState.cardsFilter.filter((card) => (
-        keyState === 'rarityFilter'
-          ? card[keyVerify] === prevState[keyState]
-          : card[keyVerify].toLowerCase().includes(prevState[keyState].toLowerCase()))),
-    })));
+      cardsFilter: cardsDone.filter((card) => (
+        value === card.superTrunfo || card.rarity === value
+        || (card.name.includes(value) && value !== ''))),
+    });
   }
 
   handleChange = ({ target }) => {
@@ -140,16 +139,16 @@ class App extends React.Component {
       ),
     ));
 
-  callFunc = (event, keyVerify, keyState) => {
+  callFunc = (event) => {
     this.handleChange(event);
-    this.handleChangeFilter(keyVerify, keyState);
+    this.handleChangeFilter(event);
   }
 
   render() {
     const {
       cardName, cardDescription, cardAttr1, cardAttr2, cardAttr3, cardImage, cardRare,
       cardTrunfo, isSaveButtonDisabled, hasTrunfo, cardsDone, nameFilter, cardsFilter,
-      rarityFilter } = this.state;
+      rarityFilter, trunfoFilter } = this.state;
 
     return (
       <>
@@ -189,7 +188,7 @@ class App extends React.Component {
               id="nameFilter"
               value={ nameFilter }
               data-testid="name-filter"
-              onChange={ (event) => this.callFunc(event, 'name', 'nameFilter') }
+              onChange={ (event) => this.callFunc(event) }
             />
           </label>
           <label htmlFor="nameFilter">
@@ -197,7 +196,7 @@ class App extends React.Component {
               name="rarityFilter"
               id="rare-filter"
               data-testid="rare-filter"
-              onChange={ (event) => this.callFunc(event, 'rarity', 'rarityFilter') }
+              onChange={ (event) => this.callFunc(event) }
             >
               <option value="todas">Todas</option>
               <option value="normal">Normal</option>
@@ -205,9 +204,19 @@ class App extends React.Component {
               <option value="muito raro">Muito Raro</option>
             </select>
           </label>
+          <label htmlFor="trunfo-filter">
+            <input
+              type="checkbox"
+              name="trunfoFilter"
+              id="trunfo-filter"
+              data-testid="trunfo-filter"
+              onChange={ (event) => this.callFunc(event) }
+            />
+            Super Trybe Trunfo
+          </label>
         </div>
         <div className="all-cards">
-          { nameFilter === '' && (rarityFilter === '' || rarityFilter === 'todas')
+          { !trunfoFilter && !nameFilter && (!rarityFilter || rarityFilter === 'todas')
             ? this.checkRenderFilter(cardsDone) : this.checkRenderFilter(cardsFilter) }
         </div>
       </>
